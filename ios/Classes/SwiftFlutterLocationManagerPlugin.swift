@@ -55,7 +55,7 @@ public class SwiftFlutterLocationManagerPlugin: NSObject, FlutterPlugin {
             
             var distanceFilter = kCLDistanceFilterNone
             var accuracy = kCLLocationAccuracyBestForNavigation
-            
+            print("args: \(String(describing: call.arguments))")
             if let args = call.arguments as? [String: Any],
                 let distanceFilterArg =  args["distanceFilter"] as? Double,
                 let accuracyArg = args["accuracy"] as? Double{
@@ -63,6 +63,7 @@ public class SwiftFlutterLocationManagerPlugin: NSObject, FlutterPlugin {
                 accuracy = accuracyArg
             }
             
+            print(">>> distanceFilter: \(distanceFilter) | accuracy: \(accuracy)")
             func resultHander(location: Location) -> Void{
                 self.eventLocationStreamHandler.send(data: location.toJson())
             }
