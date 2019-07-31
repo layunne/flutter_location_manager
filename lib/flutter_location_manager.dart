@@ -32,14 +32,12 @@ class FlutterLocationManager {
   static Future<Location> getCurrentPosition() async {
 
     final dynamic result = await _channel.invokeMethod(_METHOD_CHANNEL_CURRENT_POSITION);
-    print("🔴 result: $result");
-    print("🔴 result: ${json.decode(result)}");
     return Location.fromMap(json.decode(result));
   }
 
-  static void startLocation(Function(Location) onLocation, {double distanceFilter, double accuracy}) {
-    _startLocationServices().then((_){
-      _onLocation(distanceFilter: distanceFilter, accuracy: accuracy);
+  static void startLocation(Function(Location) onLocation, {double distanceFilter = -1, double accuracy=-2}) {
+    _startLocationServices(distanceFilter: distanceFilter, accuracy: accuracy).then((_){
+      _onLocation();
       _onLocationSubscription = _eventsLocation.listen((dynamic location) => onLocation(Location.fromMap(json.decode(location))));
     });
   }
@@ -54,15 +52,15 @@ class FlutterLocationManager {
   }
 
 
-  static Future<void> _startLocationServices() async {
-    await _channel.invokeMethod<String>(_METHOD_CHANNEL_START_LOCATION);
+  static Future<void> _startLocationServices({double distanceFilter, double accuracy}) async {
+    await _channel.invokeMethod<String>(_METHOD_CHANNEL_START_LOCATION, {'distanceFilter':distanceFilter, 'accuracy':accuracy});
     return;
   }
 
-  static void _onLocation({double distanceFilter, double accuracy}) {
+  static void _onLocation() {
     _keepAline = true;
     if (_eventsLocation == null) {
-      _eventsLocation = _eventChannelLocation.receiveBroadcastStream({'distanceFilter':distanceFilter, 'accuracy':accuracy}).where((_) => _keepAline);
+      _eventsLocation = _eventChannelLocation.receiveBroadcastStream({}).where((_) => _keepAline);
     }
   }
 }

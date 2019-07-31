@@ -1,7 +1,5 @@
 part of location_manager;
 
-enum LocationAccuracy { LOWEST, LOW, MEDIUM, HIGH, BEST, NAVIGATION }
-
 class Location {
   double latitude;
   double longitude;
