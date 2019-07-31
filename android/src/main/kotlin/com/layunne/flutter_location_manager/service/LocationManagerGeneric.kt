@@ -34,8 +34,6 @@ class LocationManagerGeneric(private val activity: Activity){
     private val requestCode = 22
 
     init {
-        locationRequest.interval = 10000
-        locationRequest.fastestInterval = 10000 / 2
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         requestPermissions()
@@ -43,13 +41,14 @@ class LocationManagerGeneric(private val activity: Activity){
 
     private var locationCallback: LocationCallback? = null
 
-    fun startUpdatingLocation(result: (data: Any) -> Unit){
+    fun startUpdatingLocation(result: (data: Any) -> Unit, distanceFilter: Float){
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 result(LocationData(locationResult.lastLocation).toJson())
             }
         }
+        locationRequest.smallestDisplacement = distanceFilter
 
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
     }

@@ -18,7 +18,13 @@ class MyStreamHandler : EventChannel.StreamHandler {
 
     fun send(data: Any){
         if (this.sink != null) {
-            sink!!.success(data)
+            try {
+                sink!!.success(data)
+            }catch (e: Exception){
+                println(e.message)
+                println(">>> no sink")
+            }
+
         } else {
             println(">>> no sink")
         }

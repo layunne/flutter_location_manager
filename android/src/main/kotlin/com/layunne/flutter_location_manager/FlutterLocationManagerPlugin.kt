@@ -68,7 +68,7 @@ class FlutterLocationManagerPlugin(registrar: Registrar): MethodCallHandler {
     when (call.method) {
         MethodName.PLATFORM_VERSION -> result.success("Android ${android.os.Build.VERSION.RELEASE}")
         MethodName.CURRENT_POSITION -> locationManagerGeneric.getCurrentPosition(result)
-        MethodName.START_UPDATING_LOCATION -> {result.success("ok");locationManagerGeneric.startUpdatingLocation(eventLocationStreamHandler::send)}
+        MethodName.START_UPDATING_LOCATION -> {result.success("ok");locationManagerGeneric.startUpdatingLocation(eventLocationStreamHandler::send, call.argument<Double>("distanceFilter")?.toFloat()?:0f)}
         MethodName.STOP_UPDATING_LOCATION -> locationManagerGeneric.stopUpdatingLocation()
         else -> result.notImplemented()
     }
