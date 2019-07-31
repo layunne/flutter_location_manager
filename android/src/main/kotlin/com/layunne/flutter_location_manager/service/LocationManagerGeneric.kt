@@ -34,6 +34,8 @@ class LocationManagerGeneric(private val activity: Activity){
     private val requestCode = 22
 
     init {
+        locationRequest.interval = 10000
+        locationRequest.fastestInterval = 10000 / 2
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         requestPermissions()
