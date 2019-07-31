@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
 
     print("[onClickChangePace] -> $_isMoving");
 
-    _isMoving ? FlutterLocationManager.startLocation(onLocation) : FlutterLocationManager.stopLocation();
+    _isMoving ? FlutterLocationManager.startLocation(onLocation, distanceFilter: 50) : FlutterLocationManager.stopLocation();
   }
 
   Future<void> _onClickGetCurrentPosition() async {
