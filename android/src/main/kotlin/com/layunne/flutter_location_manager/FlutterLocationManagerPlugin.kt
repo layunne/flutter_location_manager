@@ -41,7 +41,7 @@ data class Error(val code: String, val message: String)
 class FlutterLocationManagerPlugin(registrar: Registrar): MethodCallHandler {
 
 
-  private val eventLocationStreamHandler = MyStreamHandler()
+  private val eventLocationStreamHandler = MyStreamHandler(this::onCancelCallback)
 
   private val locationManagerGeneric = LocationManagerGeneric(registrar.activity())
 
@@ -62,6 +62,10 @@ class FlutterLocationManagerPlugin(registrar: Registrar): MethodCallHandler {
       FlutterLocationManagerPlugin(registrar)
 
     }
+  }
+
+  private fun onCancelCallback(){
+    locationManagerGeneric.stopUpdatingLocation()
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {

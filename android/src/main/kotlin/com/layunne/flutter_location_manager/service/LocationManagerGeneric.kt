@@ -34,8 +34,8 @@ class LocationManagerGeneric(private val activity: Activity){
     private val requestCode = 22
 
     init {
-        locationRequest.interval = 10000
-        locationRequest.fastestInterval = 10000 / 2
+        locationRequest.interval = 8000
+        locationRequest.fastestInterval = 4000
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
         requestPermissions()
@@ -52,7 +52,7 @@ class LocationManagerGeneric(private val activity: Activity){
         }
         locationRequest.smallestDisplacement = distanceFilter
 
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
     fun stopUpdatingLocation(){
